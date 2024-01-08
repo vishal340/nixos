@@ -52,6 +52,9 @@
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";
   services.xserver.windowManager.dwm.enable = true;
+  services.xserver.windowManager.dwm.package = pkgs.dwm.overrideAttrs {
+    src = /home/vishal340/Downloads/dwm;
+  };
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
 
   # Enable CUPS to print documents.
@@ -87,6 +90,7 @@
     xorg.libX11
     fontconfig
     xorg.libXft
+    x11_ssh_askpass
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -100,7 +104,11 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings.PasswordAuthentication = false;
+    settings.KbdInteractiveAuthentication = false;
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
